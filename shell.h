@@ -72,24 +72,29 @@ typedef struct liststr
  *@readfd: the fd from which to read line input
  *@histcount: the history line number count
  */
+
+/*
+Arranged the variables in the passinfo struct in order of largest(in terms of space) to smalles to avoid
+padding.
+This will help minimize the amount of space the passinfo struc takes in the stack memory
+*/
 typedef struct passinfo
 {
-	char *arg;
-	char **argv;
-	char *path;
-	int argc;
-	unsigned int line_count;
-	int err_num;
-	int linecount_flag;
-	char *fname;
 	list_t *env;
 	list_t *history;
 	list_t *alias;
+	char *arg;
+	char **argv;
+	char *path;
+	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
+	char *fname;
 	char **environ;
+	unsigned int line_count;
 	int env_changed;
 	int status;
-
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
+	int argc;
+	int err_num;
+	int linecount_flag;
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
 	int readfd;
 	int histcount;
